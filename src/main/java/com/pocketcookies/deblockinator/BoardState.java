@@ -27,32 +27,7 @@ public class BoardState {
         this.yExit = yExit;
     }
 
-    private List<Block> applyMovementToBlocks(Movement movement) {
-        ImmutableList.Builder<Block> builder = ImmutableList.builder();
-        for (Block block : blocks) {
-            if (block == movement.getBlock()) {
-                builder.add(new Block(
-                        block.getX() + movement.getXDisplacement(),
-                        block.getY() + movement.getYDisplacement(),
-                        block.getLength(),
-                        block.getOrientation(),
-                        block.isExitingBlock()));
-            } else {
-                builder.add(block);
-            }
-        }
-        return builder.build();
-    }
-
-    List<BoardState> getReachableStates() {
-        ImmutableList.Builder<BoardState> reachableStates = ImmutableList.builder();
-        for (Movement movement : getValidMovements()) {
-            reachableStates.add(new BoardState(applyMovementToBlocks(movement), width, height, xExit, yExit));
-        }
-        return reachableStates.build();
-    }
-
-    private List<Movement> getValidMovements() {
+    List<Movement> getValidMovements() {
         CollisionGrid grid = new CollisionGrid(blocks, width, height);
         ImmutableList.Builder<Movement> builder = ImmutableList.builder();
         for (Block block : blocks) {
@@ -116,5 +91,22 @@ public class BoardState {
     @Override
     public int hashCode() {
         return Objects.hashCode(width, height, xExit, yExit, blocks);
+    }
+
+    BoardState applyMovementToBlocks(Movement movement) {
+        ImmutableList.Builder<Block> builder = ImmutableList.builder();
+        for (Block block : blocks) {
+            if (block == movement.getBlock()) {
+                builder.add(new Block(
+                        block.getX() + movement.getXDisplacement(),
+                        block.getY() + movement.getYDisplacement(),
+                        block.getLength(),
+                        block.getOrientation(),
+                        block.isExitingBlock()));
+            } else {
+                builder.add(block);
+            }
+        }
+        return new BoardState(builder.build(), width, height, xExit, yExit);
     }
 }
