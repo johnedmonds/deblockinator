@@ -52,6 +52,9 @@ class CollisionGrid {
     public boolean movementBlocked(Movement movement) {
         try {
             updateGrid(movement.getBlock(), false);
+            if (movement.getBlock().getX() + movement.getXDisplacement() < 0 || movement.getBlock().getY() + movement.getYDisplacement() < 0) {
+                return true;
+            }
             switch (movement.getBlock().getOrientation()) {
                 case HORIZONTAL:
                     if (movement.getBlock().getX() + movement.getBlock().getLength() - 1 + movement.getXDisplacement() >= grid.length) {
