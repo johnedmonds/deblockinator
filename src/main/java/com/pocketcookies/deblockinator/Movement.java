@@ -4,6 +4,8 @@
  */
 package com.pocketcookies.deblockinator;
 
+import com.google.common.base.Objects;
+
 /**
  *
  * @author jack
@@ -30,5 +32,21 @@ class Movement {
 
     Block getBlock() {
         return block;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof Movement) {
+            Movement movement = (Movement) o;
+            return Objects.equal(xDisplacement, movement.xDisplacement)
+                    && Objects.equal(yDisplacement, movement.yDisplacement)
+                    && Objects.equal(block, movement.block);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(xDisplacement, yDisplacement, block);
     }
 }

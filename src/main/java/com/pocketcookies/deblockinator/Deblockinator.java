@@ -16,24 +16,21 @@ public class Deblockinator {
         System.out.println("Hello World!");
     }
     
-    private static List<BoardState> getReachableStates(BoardState boardState) {
-        ImmutableList.Builder<BoardState> reachableStates = ImmutableList.builder();
-        for (Movement movement : boardState.getValidMovements()) {
-            reachableStates.add(boardState.applyMovementToBlocks(movement));
-        }
-        return reachableStates.build();
+    static List<Movement> getPathToEndState(BoardState startState) {
+        return getPathToEndState(startState, Sets.<BoardState>newHashSet()).build().reverse();
     }
-
-    static BoardState getEndState(BoardState startState, Set<BoardState> visitedBoardStates) {
-        for (BoardState boardState : getReachableStates(startState)) {
+    
+    private static ImmutableList.Builder<Movement> getPathToEndState(BoardState startState, Set<BoardState> visitedBoardStates) {
+        for (Movement movement : startState.getValidMovements()) {
+            BoardState boardState = startState.applyMovementToBlocks(movement);
             if (!visitedBoardStates.contains(boardState)) {
                 visitedBoardStates.add(boardState);
                 if (boardState.isEndState()) {
-                    return boardState;
+                    return ImmutableList.<Movement>builder().add(movement);
                 }
-                BoardState foundEndState = getEndState(boardState, visitedBoardStates);
-                if (foundEndState != null) {
-                    return foundEndState;
+                ImmutableList.Builder<Movement> foundPath = getPathToEndState(boardState, visitedBoardStates);
+                if (foundPath != null) {
+                    return foundPath.add(movement);
                 }
             }
         }
