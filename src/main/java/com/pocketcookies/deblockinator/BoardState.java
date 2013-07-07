@@ -2,10 +2,8 @@ package com.pocketcookies.deblockinator;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Maps;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 /**
  * The state of the board at one point in time.
@@ -19,7 +17,7 @@ public class BoardState {
     private final int xExit;
     private final int yExit;
 
-    public BoardState(Collection<Block> blocks, int width, int height, int xExit, int yExit) {
+    BoardState(Collection<Block> blocks, int width, int height, int xExit, int yExit) {
         this.blocks = blocks;
         this.width = width;
         this.height = height;
@@ -27,6 +25,9 @@ public class BoardState {
         this.yExit = yExit;
     }
 
+    /**
+     * Gets all the movements that are valid with this board.
+     */
     List<Movement> getValidMovements() {
         CollisionGrid grid = new CollisionGrid(blocks, width, height);
         ImmutableList.Builder<Movement> builder = ImmutableList.builder();
@@ -40,6 +41,12 @@ public class BoardState {
         return builder.build();
     }
 
+    /**
+     * Generates a list of potential movements for the block.
+     *
+     * Note that the generated movements should only be one space at a time.
+     * This prevents us from accidentally "jumping" over a block.
+     */
     private List<Movement> generatePotentialMovements(Block block) {
         ImmutableList.Builder<Movement> builder = ImmutableList.builder();
         switch (block.getOrientation()) {
@@ -59,6 +66,9 @@ public class BoardState {
         return builder.build();
     }
 
+    /**
+     * Whether the "exiting" block is in the end position.
+     */
     boolean isEndState() {
         Block exitingBlock = null;
         for (Block block : blocks) {
@@ -68,6 +78,7 @@ public class BoardState {
             }
         }
         assert exitingBlock != null;
+        // We don't support vertical blocks.
         assert exitingBlock.getOrientation() == Orientation.HORIZONTAL;
         if (exitingBlock.getX() + exitingBlock.getLength() - 1 == xExit && exitingBlock.getY() == yExit) {
             return true;
@@ -93,6 +104,10 @@ public class BoardState {
         return Objects.hashCode(width, height, xExit, yExit, blocks);
     }
 
+    /**
+     * Returns a new {@link BoardState} with the block specified in
+     * {@code movement} moved.
+     */
     BoardState applyMovementToBlocks(Movement movement) {
         ImmutableList.Builder<Block> builder = ImmutableList.builder();
         for (Block block : blocks) {

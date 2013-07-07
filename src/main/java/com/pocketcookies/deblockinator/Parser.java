@@ -7,8 +7,7 @@ package com.pocketcookies.deblockinator;
 import com.google.common.collect.ImmutableSet;
 
 /**
- *
- * @author jack
+ * Parses text to generate a board.
  */
 public class Parser {
 

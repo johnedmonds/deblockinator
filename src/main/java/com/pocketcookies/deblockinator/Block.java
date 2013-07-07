@@ -7,8 +7,7 @@ package com.pocketcookies.deblockinator;
 import com.google.common.base.Objects;
 
 /**
- *
- * @author jack
+ * A single block on the board.
  */
 class Block {
 

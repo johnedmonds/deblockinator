@@ -7,8 +7,7 @@ package com.pocketcookies.deblockinator;
 import com.google.common.base.Objects;
 
 /**
- *
- * @author jack
+ * A movement of a particular {@link Block}.
  */
 class Movement {
 

@@ -5,8 +5,7 @@
 package com.pocketcookies.deblockinator;
 
 /**
- *
- * @author jack
+ * Which way the block is oriented.
  */
 enum Orientation {
     HORIZONTAL,VERTICAL;

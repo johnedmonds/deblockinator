@@ -8,8 +8,8 @@ import static com.pocketcookies.deblockinator.Orientation.HORIZONTAL;
 import java.util.Collection;
 
 /**
- *
- * @author jack
+ * A grid containing which spaces are occupied by blocks. It helps us to
+ * determine whether a particular move is valid.
  */
 class CollisionGrid {
 

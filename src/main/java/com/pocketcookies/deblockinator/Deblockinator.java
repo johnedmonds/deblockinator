@@ -2,7 +2,6 @@ package com.pocketcookies.deblockinator;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
