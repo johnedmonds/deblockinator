@@ -44,14 +44,14 @@ public class BoardState {
         ImmutableList.Builder<Movement> builder = ImmutableList.builder();
         switch (block.getOrientation()) {
             case HORIZONTAL:
-                for (int i = 1; i < width; i++) {
-                    builder.add(new Movement(i - block.getX(), 0, block));
-                }
+                builder
+                        .add(new Movement(-1, 0, block))
+                        .add(new Movement(1, 0, block));
                 break;
             case VERTICAL:
-                for (int i = 1; i < height; i++) {
-                    builder.add(new Movement(0, i - block.getY(), block));
-                }
+                builder
+                        .add(new Movement(0, -1, block))
+                        .add(new Movement(0, 1, block));
                 break;
             default:
                 throw new IllegalArgumentException("Unsupported orientation: " + block.getOrientation() + " for block: " + block);
